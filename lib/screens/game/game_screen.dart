@@ -22,6 +22,7 @@ class GameScreen extends StatefulWidget {
 
 class _GameScreenState extends State<GameScreen> {
   final pageController = PageController();
+  int _pageIndex = 0;
 
   final panelController = PanelController();
 
@@ -140,7 +141,9 @@ class _GameScreenState extends State<GameScreen> {
             PageView(
               controller: pageController,
               onPageChanged: (index) {
-                setState(() {});
+                setState(() {
+                  _pageIndex = index;
+                });
               },
               children: [
                 SingleChildScrollView(
@@ -515,6 +518,51 @@ class _GameScreenState extends State<GameScreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+        GestureDetector(
+        onTap: () {
+          if (_pageIndex == 1) {
+            pageController.previousPage(duration: Duration(milliseconds: 500),
+                curve: Curves.ease);
+          }
+        },
+        child: Container(
+          height: 50,
+          width: 70,
+          decoration: BoxDecoration(
+              color: _pageIndex == 0 ? AppColors.accentYellow : AppColors.black5,
+              border: Border.all(color: Colors.transparent),
+              borderRadius: BorderRadius.all(Radius.circular(12.0))),
+          child: Center(
+            child: SvgPicture.asset('assets/images/game/home.svg', color: _pageIndex == 0 ? AppColors.black : AppColors.black40),
+          ),
+        ),
+      ),
+          SizedBox(width: 10,),
+          GestureDetector(
+            onTap: () {
+              if (_pageIndex == 0) {
+                pageController.nextPage(duration: Duration(milliseconds: 500),
+                    curve: Curves.ease);
+              }
+            },
+            child: Container(
+              height: 50,
+              width: 70,
+              decoration: BoxDecoration(
+                  color:  _pageIndex == 1 ? AppColors.accentYellow : AppColors.black5,
+                  border: Border.all(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(Radius.circular(12.0))),
+              child: Center(
+                child: SvgPicture.asset('assets/images/game/case.svg', color: _pageIndex == 1 ? AppColors.black : AppColors.black40),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
